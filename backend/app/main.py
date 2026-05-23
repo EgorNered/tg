@@ -73,6 +73,10 @@ async def get_analytics_summary():
 
 if __name__ == "__main__":
     import uvicorn
-    # Railway автоматически передает порт через переменную окружения PORT
+    import os
+
+    # Забираем порт, который выдал Railway, или берем 8000 как запасной для локалки
     port = int(os.environ.get("PORT", 8000))
-    uvicorn.run("main.py:app", host="0.0.0.0", port=port, reload=True)
+    
+    # КРИТИЧЕСКИ ВАЖНО: host должен быть "0.0.0.0", а не "127.0.0.1" или "localhost"
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
